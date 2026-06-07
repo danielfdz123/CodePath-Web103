@@ -16,22 +16,21 @@ const renderPlayers = async () =>
             const bottomContainer = document.createElement('div')
             bottomContainer.classList.add('bottom-container')
 
-            // On each card, we will see the players image, name, age and current teams
             topContainer.style.backgroundImage = `url(${player.image})`
 
             const name = document.createElement('h3')
             name.textContent = player.name
             bottomContainer.appendChild(name)
 
-            const age = document.createElement('p')
-            age.textContent = 'Age: ' + player.age
-            bottomContainer.appendChild(age)
+            const position = document.createElement('p')
+            position.textContent = 'Position: ' + player.position
+            bottomContainer.appendChild(position)
 
             const teams = document.createElement('p')
-            teams.textContent = player.team.join(', ')
+            teams.textContent = 'Teams: ' + player.team.join(', ')
             bottomContainer.appendChild(teams)
 
-            // Read more link so we can learn more about said player
+
             const link = document.createElement('a')
             link.textContent = 'Read More >'
             link.setAttribute('role', 'button')
@@ -54,7 +53,7 @@ const renderPlayers = async () =>
     }
 }
 
-const renderPlayer = async () =>
+const renderPlayer = async () => 
 {
     const requestedID = parseInt(window.location.href.split('/').pop())
     const response = await fetch('/players')
@@ -69,48 +68,42 @@ const renderPlayer = async () =>
         player = data.find(player => player.id === requestedID)
         if (player) 
         {
-            // Image, name, and description are all rendered onto the card
             document.getElementById('image').src = player.image
             document.getElementById('image').alt = player.name
             document.getElementById('name').textContent = player.name
-            document.getElementById('description').textContent = player.description
+            document.getElementById('position').textContent = 'Position: ' + player.position
+            document.getElementById('team').textContent = 'Current Teams: ' + player.team.join(', ')
 
             const calledUp = document.getElementById('calledUp')
             if (player.calledUpForWorldCup) 
             {
-                calledUp.textContent = 'Will make an appearance at the 2026 FIFA World Cup'
+                calledUp.textContent = '✅ Called up for the FIFA World Cup 2026'
             } 
             else if (player.name === 'Sergio Ramos') 
             {
-                calledUp.textContent = 'Will miss the FIFA World Cup 2026 since he is currently retired from international football'
+                calledUp.textContent = '❌ Retired from international football'
             }
             else
             {
-                calledUp.textContent = 'Will miss the FIFA World Cup 2026 since Poland failed to qualify'
+                calledUp.textContent = '❌ Country failed to qualify'
             }
             document.title = player.name
-        }
-        else
-        {
-            // valid URL shape, but no player with that id -> 404
-            window.location.href = '/404.html'
-        }
+        } 
     }
-    else
-    {
+    else {
         const message = document.createElement('h2')
         message.textContent = 'No Players Available 😞'
         mainContent.appendChild(message)
     }
 }
 
-// Pick which render function to run based on the URL.
-// Detail pages look like /players/3 ; the homepage is / .
-if (/^\/players\/\d+$/.test(window.location.pathname))
+if (requestedUrl) 
 {
-    renderPlayer()
+  window.location.href = '../404.html'
 }
-else
+else 
 {
     renderPlayers()
 }
+
+renderPlayer()
