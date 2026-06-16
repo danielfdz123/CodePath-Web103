@@ -86,7 +86,7 @@ const renderPlayer = async () =>
             }
             else
             {
-                calledUp.textContent = 'Will miss the FIFA World Cup 2026 since Poland failed to qualify'
+                calledUp.textContent = 'Will miss the FIFA World Cup 2026 since their country failed to qualify'
             }
             document.title = player.name
         }

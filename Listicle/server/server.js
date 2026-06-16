@@ -1,4 +1,5 @@
 import express from 'express'
+import './config/dotenv.js'
 import soccerPlayers from './routes/players.js'
 
 const app = express()
